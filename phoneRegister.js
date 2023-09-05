@@ -37,7 +37,6 @@ module.exports = class PhoneRegister {
       throw new Error('missing parameter');
     }
     const numbersFound = [];
-
     for (const person of this.#register) {
       for (const phone of person.phones) {
         if (phone.type === type) {
@@ -52,7 +51,17 @@ module.exports = class PhoneRegister {
         }
       }
     }
-
     return numbersFound;
+  }
+
+  getAllNumbers() {
+    const found = [];
+    for (const person of this.#register) {
+      if(person.phones.length>0){
+        found.push(person);
+      }
+    }
+
+    return found;
   }
 };
