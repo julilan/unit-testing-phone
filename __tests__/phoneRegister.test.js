@@ -349,3 +349,30 @@ describe('Testing getAllNumbers method',()=>{
     expect(register.getAllNumbers()).toEqual(expectedResult)
   })
 })
+
+describe('Test cases of getName',()=>{
+  const register = new PhoneRegister(phones);
+
+  test('Test getName for number "12345678"',()=>{
+    expect(register.getName('12345678')).toEqual({ "firstname": "Leila", "lastname": "Hökki" })
+  })
+
+  const testValues = [
+    //number      expectedResult
+    ["05040302",{ "firstname": "Leila", "lastname": "Hökki" }],
+    ["040981265",{ "firstname": "Matt", "lastname": "River" }]
+  ]
+
+  test.each(testValues)('number %s returns %p', (number, expectedResult)=>{
+    expect(register.getName(number)).toEqual(expectedResult)
+  })
+
+  test('testing wrong number',()=>{
+    expect(register.getName('0000')).toBeNull();
+  })
+
+  test('testing missing parameter',()=>{
+    expect(register.getName()).toBeNull();
+  })
+
+})
