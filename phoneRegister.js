@@ -18,7 +18,9 @@ module.exports = class PhoneRegister {
   };
 
   getPersonsNumbersByType(firstname, lastname, type) {
-    if(firstname && lastname && type) {
+    if (arguments.length < 3) {
+      throw new Error('missing parameter');
+    }
       const numbersFound = [];
       for (const person of this.#register) {
         if (person.firstname === firstname && person.lastname === lastname) {
@@ -28,8 +30,5 @@ module.exports = class PhoneRegister {
         }
       }
       return numbersFound;
-    } else {
-      throw new Error('missing parameter');
-    }
   };
 };

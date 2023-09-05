@@ -98,16 +98,37 @@ describe('Testing getPersonsNumbersByType method', () => {
     });
   });
 
-  describe('Tests 4-6, parameter missing', () => {
-    const testValues = [
-      ['Matt', 'River', ''], // 1 missing
-      ['Matt', '', ''], // 2 missing
-      ['', '', ''], // all missing
-    ];
-
-    test.each(testValues)('%s, %s, %s', (fn, ln, type) => {
-      expect(() => register.getPersonsNumbersByType(fn, ln, type)).toThrow('missing parameter');
-    });
+  describe('Tests 4, at least one parameter missing', () => {
+    test('one parameter missing',()=>{
+      expect(()=>register.getPersonsNumbersByType('Matt', 'River').toThrow('missing parameter'))
+    })
+    test('two parameters missing',()=>{
+      expect(()=>register.getPersonsNumbersByType('Matt').toThrow('missing parameter'))
+    })
+    test('all parameters missing',()=>{
+      expect(()=>register.getPersonsNumbersByType().toThrow('missing parameter'))
+    })
   });
+
+  describe('Test 5: testing empty string as type using modified data',()=>{
+    const testData = [  {
+      "firstname": "Leila",
+      "lastname": "Hökki",
+      "phones": [
+        { "type": "home", "number": "12345678" },
+        { "type": "", "number": "353553732" },
+        { "type": "home", "number": "05040302" }
+      ]
+    },
+    {
+      "firstname": "Matt",
+      "lastname": "River",
+      "phones": [{ "type": "work", "number": "56743290" }]
+    }];
+    test('Yest firstname:Leila, lastname:Hökki and type:""', ()=>{
+      const modifiedregister = new PhoneRegister(testData);
+      expect(modifiedregister.getPersonsNumbersByType('Leila','Hökki', '')).toEqual(["353553732"])
+    })
+  })
 });
 
