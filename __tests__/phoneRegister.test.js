@@ -100,13 +100,13 @@ describe('Testing getPersonsNumbersByType method', () => {
 
   describe('Tests 4, at least one parameter missing', () => {
     test('one parameter missing',()=>{
-      expect(()=>register.getPersonsNumbersByType('Matt', 'River').toThrow('missing parameter'))
+      expect(()=>register.getPersonsNumbersByType('Matt', 'River')).toThrow('missing parameter')
     })
     test('two parameters missing',()=>{
-      expect(()=>register.getPersonsNumbersByType('Matt').toThrow('missing parameter'))
+      expect(()=>register.getPersonsNumbersByType('Matt')).toThrow('missing parameter')
     })
     test('all parameters missing',()=>{
-      expect(()=>register.getPersonsNumbersByType().toThrow('missing parameter'))
+      expect(()=>register.getPersonsNumbersByType()).toThrow('missing parameter')
     })
   });
 
@@ -131,4 +131,88 @@ describe('Testing getPersonsNumbersByType method', () => {
     })
   })
 });
+
+describe('Testing getAllNumbersByType method',()=>{
+
+  describe('Test with default data',()=>{
+    const register = new PhoneRegister(phones);
+    
+    test('Testing type: work',()=>{
+      const expectedResult = [
+        {
+          "firstname": "Leila",
+          "lastname": "Hökki",
+          "number": { "type": "work", "tel": "87654321" }
+        },
+        {
+          "firstname": "Leila",
+          "lastname": "Hökki",
+          "number": { "type": "work", "tel": "05040302" }
+        },
+        {
+          "firstname": "Matt",
+          "lastname": "River",
+          "number": { "type": "work", "tel": "2468159" }
+        }
+      ]
+      expect(register.getAllNumbersByType('work')).toEqual(expectedResult)
+    })
+  
+    test('Testing type: mobile',()=>{
+      const expectedResult = [
+        {
+          "firstname": "Matt",
+          "lastname": "River",
+          "number": { "type": "mobile", "tel": "040981265" }
+        }
+      ]
+      expect(register.getAllNumbersByType('mobile')).toEqual(expectedResult)
+    })
+  
+    test('Testing type: x',()=>{
+      expect(register.getAllNumbersByType('x')).toEqual([])
+    })
+  
+    test('Testing type: "" with default data',()=>{
+      expect(register.getAllNumbersByType('')).toEqual([])
+    })
+  
+    test('Testing missing parameter',()=>{
+      expect(()=>register.getAllNumbersByType()).toThrow('missing parameter')
+    })
+  })
+
+  describe('Testing with modified data',()=>{
+    const modifiedData = 
+    [
+      {
+        "firstname": "Leila",
+        "lastname": "Hökki",
+        "phones": [
+          { "type": "home", "number": "12345678" },
+          { "type": "", "number": "353553732" },
+          { "type": "home", "number": "05040302" }
+        ]
+      },
+      {
+        "firstname": "Matt",
+        "lastname": "River",
+        "phones": [{ "type": "work", "number": "56743290" }]
+      }
+    ]
+
+    test('Testing type: ""',()=>{
+      const register = new PhoneRegister(modifiedData)
+      const expectedResult = [
+        {
+          "firstname": "Leila",
+          "lastname": "Hökki",
+          "number": { "type": "", "tel": "353553732" }
+        }
+      ]
+      expect(register.getAllNumbersByType('')).toEqual(expectedResult)
+    })
+  })
+
+})
 

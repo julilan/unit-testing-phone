@@ -31,4 +31,28 @@ module.exports = class PhoneRegister {
       }
       return numbersFound;
   };
+
+  getAllNumbersByType(type){
+    if (arguments.length < 1) {
+      throw new Error('missing parameter');
+    }
+    const numbersFound = [];
+
+    for (const person of this.#register) {
+      for (const phone of person.phones) {
+        if (phone.type === type) {
+          numbersFound.push({
+            firstname: person.firstname,
+            lastname: person.lastname,
+            number: {
+              type: phone.type,
+              tel: phone.number
+            }
+          })
+        }
+      }
+    }
+
+    return numbersFound;
+  }
 };

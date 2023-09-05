@@ -11,30 +11,6 @@ The format of the returned object is:
 { "firstname": "", "lastname": "", "number": { "type": "", "tel": "" } }
 ```
 
-#### Example
-
-`type` work
-
-```json
-[
-  {
-    "firstname": "Leila",
-    "lastname": "Hökki",
-    "number": { "type": "work", "tel": "87654321" }
-  },
-  {
-    "firstname": "Leila",
-    "lastname": "Hökki",
-    "number": { "type": "work", "tel": "05040302" }
-  },
-  {
-    "firstname": "Matt",
-    "lastname": "River",
-    "number": { "type": "work", "tel": "2468159" }
-  }
-]
-```
-
 ## Tests
 
 ### Testing type: work with default data
@@ -57,6 +33,65 @@ returns json
     "firstname": "Matt",
     "lastname": "River",
     "number": { "type": "work", "tel": "2468159" }
+  }
+]
+```
+
+### type: mobile
+
+returns:
+
+```json
+[
+  {
+    "firstname": "Matt",
+    "lastname": "River",
+    "number": { "type": "mobile", "tel": "040981265" }
+  }
+]
+```
+
+### type: x
+
+returns []
+
+### type: ""
+
+returns [] when default data is used
+
+### Missing parameter
+
+to throw an exception `missing parameter`
+
+### testing type "" with modified data
+
+```json
+[
+  {
+    "firstname": "Leila",
+    "lastname": "Hökki",
+    "phones": [
+      { "type": "home", "number": "12345678" },
+      { "type": "", "number": "353553732" },
+      { "type": "home", "number": "05040302" }
+    ]
+  },
+  {
+    "firstname": "Matt",
+    "lastname": "River",
+    "phones": [{ "type": "work", "number": "56743290" }]
+  }
+]
+```
+
+returns
+
+```json
+[
+  {
+    "firstname": "Leila",
+    "lastname": "Hökki",
+    "phones": [{ "type": "", "number": "353553732" }]
   }
 ]
 ```
